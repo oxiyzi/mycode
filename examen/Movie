@@ -1,0 +1,206 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict chdN59o6HbtXcaPVEM05j34ILAoLt9cIFj8l6iNrPgEUj8TcOQ4NwMd5JSaNvhE
+
+-- Dumped from database version 16.13
+-- Dumped by pg_dump version 18.2
+
+-- Started on 2026-04-21 14:41:18
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 216 (class 1259 OID 16411)
+-- Name: movies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.movies (
+    id integer NOT NULL,
+    title character varying(255),
+    genre character varying(100),
+    year integer,
+    rating double precision
+);
+
+
+ALTER TABLE public.movies OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16410)
+-- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.movies_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.movies_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4852 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16418)
+-- Name: reviews; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reviews (
+    id integer NOT NULL,
+    movie_id integer,
+    author character varying(100),
+    text text,
+    rating integer
+);
+
+
+ALTER TABLE public.reviews OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16417)
+-- Name: reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.reviews_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.reviews_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4853 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
+
+
+--
+-- TOC entry 4693 (class 2604 OID 16414)
+-- Name: movies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
+
+
+--
+-- TOC entry 4694 (class 2604 OID 16421)
+-- Name: reviews id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews ALTER COLUMN id SET DEFAULT nextval('public.reviews_id_seq'::regclass);
+
+
+--
+-- TOC entry 4844 (class 0 OID 16411)
+-- Dependencies: 216
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.movies (id, title, genre, year, rating) FROM stdin;
+1	Начало	Фантастика	2010	8.8
+2	Интерстеллар	Фантастика	2014	8.6
+4	Титаник	Драма	1997	7.9
+3	Тёмный рыцарь	Боевик	2008	10
+\.
+
+
+--
+-- TOC entry 4846 (class 0 OID 16418)
+-- Dependencies: 218
+-- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reviews (id, movie_id, author, text, rating) FROM stdin;
+1	1	Алекс	Шедевр кино	10
+2	2	Мария	Очень эмоционально	9
+3	3	Майк	Легендарный фильм	10
+4	4	Анна	Классика	9
+\.
+
+
+--
+-- TOC entry 4854 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.movies_id_seq', 6, true);
+
+
+--
+-- TOC entry 4855 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reviews_id_seq', 8, true);
+
+
+--
+-- TOC entry 4696 (class 2606 OID 16416)
+-- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4698 (class 2606 OID 16425)
+-- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4699 (class 2606 OID 16426)
+-- Name: reviews reviews_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.movies(id) ON DELETE CASCADE;
+
+
+-- Completed on 2026-04-21 14:41:18
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict chdN59o6HbtXcaPVEM05j34ILAoLt9cIFj8l6iNrPgEUj8TcOQ4NwMd5JSaNvhE
+
